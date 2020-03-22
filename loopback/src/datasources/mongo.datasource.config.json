@@ -2,10 +2,10 @@
   "name": "mongo",
   "connector": "mongodb",
   "url": "",
-  "host": "ds119150.mlab.com",
+  "host": "",
   "port": 19150,
   "user": "fii-practic",
-  "password": "DRb5LWt4dMjjehK",
+  "password": "",
   "database": "fii-practic",
   "useNewUrlParser": true
 }
