@@ -5,6 +5,7 @@
     "node": ">=10"
   },
   "scripts": {
+    "install": "cd ./loopback && npm i && cd ../angular && npm i",
     "start:server": "cd ./loopback && npm run start:watch",
     "start:ui": "cd ./angular && npm start"
   }
