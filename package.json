@@ -1,0 +1,11 @@
+{
+  "name": "fii-practic",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start:server": "cd ./loopback && npm run start:watch",
+    "start:ui": "cd ./angular && npm start"
+  }
+}

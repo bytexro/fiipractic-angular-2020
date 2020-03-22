@@ -1,0 +1,18 @@
+<ng-container *ngIf="todos$ | async as todos">
+  <header>
+    <section>
+      <label id="filter-todos">Filter todos:</label>
+      <mat-radio-group aria-labelledby="filter-todos"
+                       [ngModel]="toDosType"
+                       (change)="getTodos($event.value)">
+        <mat-radio-button value="all">All</mat-radio-button>
+        <mat-radio-button value="done">Done</mat-radio-button>
+        <mat-radio-button value="uncompleted">Uncompleted</mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <p>Number of <i>{{ toDosType }}</i>: {{ todos.length | noOfTodos }}</p>
+  </header>
+  <mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
+  <todos-list *ngIf="todos.length" [todos]="todos"></todos-list>
+</ng-container>

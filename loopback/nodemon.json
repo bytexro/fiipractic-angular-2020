@@ -1,0 +1,13 @@
+{
+  "ignore": [
+    "dist/*",
+    "node_modules/*"
+  ],
+  "ext": "ts,js,json",
+  "watch": [
+    "src/"
+  ],
+  "execMap": {
+    "js": "npm start"
+  }
+}

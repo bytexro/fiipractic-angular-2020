@@ -1,0 +1,4 @@
+<mat-checkbox *ngFor="let todo of todos"
+              [checked]="todo.completed">
+  {{ todo.title | titlecase }}
+</mat-checkbox>
