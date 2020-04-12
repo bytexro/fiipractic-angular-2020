@@ -1,42 +1,66 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay, filter, map } from 'rxjs/operators';
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
-import { IToDo, ToDoType } from '../models';
+import {
+  requestAddTodoAction,
+  requestDeleteTodoAction,
+  requestGetTodosAction,
+  requestUpdateTodoAction
+} from '../store/actions/todo.actions'
+import { selectTodos } from '../store/seletors/select-todos/select-todos.selector'
+import { selectTodosLoading } from "../store/seletors/select-todos-loading/select-todos-loading.selector";
+import { IToDo, ToDoType } from "../models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToDoService {
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public todos$: BehaviorSubject<IToDo[]> = new BehaviorSubject<IToDo[]>([]);
-  private readonly api: string = 'https://jsonplaceholder.typicode.com/todos';
+  public isLoading$ = this.store$.select(selectTodosLoading);
+  public todos$: Observable<IToDo[]> = this.store$.select<IToDo[]>(selectTodos);
 
-  constructor(private http: HttpClient) {}
+  constructor(private store$: Store,) { }
+
 
   public getTodos(selectedType: ToDoType) {
-    this.isLoading$.next(true);
+    let filter = {};
 
-    this.http.get<IToDo[]>(this.api)
-      .pipe(
-        delay(1000),
-        filter((todos: IToDo[]) => todos && !!todos.length),
-        map((todos: IToDo[]) => {
-          if (selectedType === 'done') {
-            return todos.filter(todo => todo.completed);
+    switch (selectedType) {
+      case "done":
+        filter = {
+          where: {
+            completed: true,
           }
+        }
+        break;
 
-          if (selectedType === 'uncompleted') {
-            return todos.filter(todo => !todo.completed);
+      case "uncompleted":
+        filter = {
+          where: {
+            completed: false,
           }
+        }
+        break;
+    }
 
-          return todos;
-        }),
-      )
-      .subscribe((todos: IToDo[]) => {
-        this.isLoading$.next(false);
-        this.todos$.next(todos);
-      });
+    this.store$.dispatch(requestGetTodosAction({filter}));
+  }
+
+  public addTodo() {
+    this.store$.dispatch(requestAddTodoAction({
+      todo: {
+        title: 'new todo',
+        completed: false,
+        description: 'description',
+      }
+    }))
+  }
+
+  public updateTodo(todo: IToDo): void {
+    this.store$.dispatch(requestUpdateTodoAction({todo}))
+  }
+
+  public deleteTodo(todo: IToDo): void {
+    this.store$.dispatch(requestDeleteTodoAction({todo}))
   }
 }

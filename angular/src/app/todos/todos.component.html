@@ -9,10 +9,18 @@
         <mat-radio-button value="done">Done</mat-radio-button>
         <mat-radio-button value="uncompleted">Uncompleted</mat-radio-button>
       </mat-radio-group>
+      <button mat-raised-button (click)="addTodo()">
+        Add todo
+      </button>
     </section>
 
     <p>Number of <i>{{ toDosType }}</i>: {{ todos.length | noOfTodos }}</p>
   </header>
   <mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
-  <todos-list *ngIf="todos.length" [todos]="todos"></todos-list>
+  <todos-list
+    *ngIf="todos.length"
+    [todos]="todos"
+    (todoChanged)="updateTodo($event)"
+    (todoDeleted)="deleteTodo($event)"
+  ></todos-list>
 </ng-container>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {combineLatest, Observable} from 'rxjs';
+import { Observable} from 'rxjs';
 
 import { IToDo, ToDoType } from './models';
 import { ToDoService } from './services';
@@ -22,5 +22,17 @@ export class ToDosComponent implements OnInit{
   public getTodos(selectedType: ToDoType = 'all'): void {
     this.toDosType = selectedType;
     this.toDoService.getTodos(selectedType);
+  }
+
+  public addTodo() {
+    this.toDoService.addTodo();
+  }
+
+  public updateTodo(todo: IToDo): void {
+    this.toDoService.updateTodo(todo);
+  }
+
+  public deleteTodo(todo: IToDo): void {
+    this.toDoService.deleteTodo(todo);
   }
 }

@@ -1,4 +1,6 @@
-<mat-checkbox *ngFor="let todo of todos"
-              [checked]="todo.completed">
-  {{ todo.title | titlecase }}
-</mat-checkbox>
+<div class="todo" *ngFor="let todo of todos">
+  <mat-checkbox [checked]="todo.completed" (change)="changeTodo(todo)">
+    {{ todo.title | titlecase }}
+  </mat-checkbox>
+  <button mat-raised-button color="warn" (click)="deleteTodo(todo)">Delete</button>
+</div>
